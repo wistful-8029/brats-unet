@@ -11,6 +11,7 @@ class InConv(nn.Module):
         x = self.conv(x)
         return x
 
+
 class Down(nn.Module):
     def __init__(self, in_ch, out_ch):
         super(Down, self).__init__()
@@ -23,6 +24,7 @@ class Down(nn.Module):
         x = self.mpconv(x)
         return x
 
+
 class OutConv(nn.Module):
     def __init__(self, in_ch, out_ch):
         super(OutConv, self).__init__()
@@ -33,6 +35,7 @@ class OutConv(nn.Module):
         x = self.conv(x)
         # x = self.sigmoid(x)
         return x
+
 
 class DoubleConv(nn.Module):
     def __init__(self, in_ch, out_ch):
@@ -50,11 +53,12 @@ class DoubleConv(nn.Module):
         x = self.conv(x)
         return x
 
+
 class Up(nn.Module):
-    def __init__(self, in_ch, skip_ch,out_ch):
+    def __init__(self, in_ch, skip_ch, out_ch):
         super(Up, self).__init__()
         self.up = nn.ConvTranspose3d(in_ch, in_ch, kernel_size=2, stride=2)
-        self.conv = DoubleConv(in_ch+skip_ch, out_ch)
+        self.conv = DoubleConv(in_ch + skip_ch, out_ch)
 
     def forward(self, x1, x2):
         x1 = self.up(x1)
@@ -66,7 +70,7 @@ class Up(nn.Module):
 class UNet(nn.Module):
     def __init__(self, in_channels, num_classes):
         super(UNet, self).__init__()
-        features = [32,64,128,256]
+        features = [32, 64, 128, 256]
 
         self.inc = InConv(in_channels, features[0])
         self.down1 = Down(features[0], features[1])
